@@ -1,7 +1,7 @@
 function drawBall(){
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = '#0095dd';
+    ctx.fillStyle = '#1BFE04';
     ctx.fill();
     ctx.closePath();
 }
@@ -9,25 +9,29 @@ function drawBall(){
 function wallBounce(){
     if(y + dy < ballRadius){
         dy = -dy;
+        bounce.play();
     } else if(y + dy > canvas.height-ballRadius){
         if(x > paddleX && x < paddleX + paddleWidth){
-            dy = -dy;         
+            dy = -dy;
+            bounce.play();         
         }else {
+            gameOver.play();
             alert('Game Over');
             document.location.reload();
-            clearInterval(interval);
+            clearInterval(interval);            
         }
     }
     
     if(x + dx > canvas.width - ballRadius || x + dx < ballRadius){
         dx = -dx;
+        bounce.play();
     }
 }
 
 function drawPaddle(){
     ctx.beginPath();
     ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
-    ctx.fillStyle = '#0095dd';
+    ctx.fillStyle = '#FF0008';
     ctx.fill()
     ctx.closePath();
 }
@@ -81,7 +85,7 @@ function drawBricks(){
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
                 ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = "#0095DD";
+                ctx.fillStyle = "#FF0008";
                 ctx.fill();
                 ctx.closePath();
             }            
@@ -98,10 +102,12 @@ function collisionDetection(){
                     dy = -dy;
                     b.status = 0;
                     score++;
+                    bounce.play();
                     if(score == brickRowCount*brickColumnCount){
                         alert("You Win!");
                         document.location.reload();
                         clearInterval(interval);
+                        winner.play();
                     }
                 }
             }            
@@ -111,6 +117,6 @@ function collisionDetection(){
 
 function drawScore(){
     ctx.font = '20px Arial';
-    ctx.fillStyle = "#0099dd";
+    ctx.fillStyle = "#1BFE04";
     ctx.fillText('Score: ' + score, 30, 20);
 }

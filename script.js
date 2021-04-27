@@ -17,4 +17,4 @@ function draw(){
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 
-let interval = setInterval(draw, 10);
+let interval = setInterval(draw, 5);
